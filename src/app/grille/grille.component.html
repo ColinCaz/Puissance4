@@ -1,9 +1,18 @@
-<h2>Grille<h2></h2>
-<div>
-  <label for="largeur">Largeur : </label>
-  <input id="largeur" [(ngModel)]="grille.largeur" placeholder="5">
+<div *ngIf="selectedGrille">
+  <h2>Grille</h2>
+  <div>
+    <label for="largeur">Largeur : </label>
+    <input id="largeur" [(ngModel)]="selectedGrille.largeur" placeholder="7">
+  </div>
+  <div>
+    <label for="hauteur">Hauteur : </label>
+    <input id="hauteur" [(ngModel)]="selectedGrille.hauteur" placeholder="6">
+  </div>
 </div>
-<div>
-  <label for="hauteur">Hauteur : </label>
-  <input id="hauteur" [(ngModel)]="grille.hauteur" placeholder="5">
-</div>
+
+<h3>Choisissez la taille de la grille :</h3>
+<ul class="grilles">
+  <li *ngFor="let grille of grilles" [class.selected]="grille === selectedGrille" (click)="onSelect(grille)">
+    <span class="badge">{{grille.largeur}}</span> {{grille.hauteur}}
+  </li>
+</ul>

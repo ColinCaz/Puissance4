@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Grille } from '../grille';
+import { GRILLES } from '../mock-grilles';
 
 @Component({
   selector: 'app-grille',
@@ -8,10 +9,15 @@ import { Grille } from '../grille';
 })
 export class GrilleComponent implements OnInit {
 	
-  grille: Grille = {
-    largeur: 6,
-    hauteur: 5
+  selectedGrille?: Grille = {
+	largeur:7,
+    hauteur:6
   };
+  onSelect(grille: Grille): void {
+    this.selectedGrille = grille;
+  }
+  
+  grilles = GRILLES;
 
   constructor() { }
 
