@@ -1,0 +1,28 @@
+*{
+	text-align:center;
+}
+#ligne{
+	display:inline-block;
+	border-radius:50%;
+	background-color:#A0D2DB;
+}
+#colonne{
+	width:10%;
+	background-color:#333333;
+}
+.joueur{
+	font-size:300%;
+	background:none;
+	border:none;
+	margin:0;
+	padding:0;
+	margin-bottom:2%;
+	font-weight:bold;
+	width:50%;
+}
+#joueur1{
+	color:#F68E5F;
+}
+#joueur2{
+	color:#947EB0;
+}
