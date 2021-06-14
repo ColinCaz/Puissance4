@@ -4,10 +4,10 @@ import { ParametresComponent } from './parametres/parametres.component';
 import { PartieComponent } from './partie/partie.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/parametres/..7.6', pathMatch: 'full' },
-  { path: 'parametres/:parametres', component: ParametresComponent },
-  { path: 'partie/:partie', component: PartieComponent },
-  { path: '**', redirectTo: '/parametres/..7.6', pathMatch: 'full' }
+  { path: '', redirectTo: '/parametres', pathMatch: 'full' },
+  { path: 'parametres', component: ParametresComponent },
+  { path: 'partie', component: PartieComponent },
+  { path: '**', redirectTo: '/parametres', pathMatch: 'full' }
 ];
 
 @NgModule({

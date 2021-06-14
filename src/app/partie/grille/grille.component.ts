@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Grille } from '../../grille';
 import { Partie } from '../partie';
+import { DonneesService } from '../../donnees.service';
 
 @Component({
   selector: 'app-grille',
@@ -10,8 +11,8 @@ import { Partie } from '../partie';
 export class GrilleComponent implements OnInit {
 
   @Input() partie: Partie = {
-	joueur1:"Colin",
-    joueur2:"Lucas",
+	joueur1:"Joueur1",
+    joueur2:"Joueur2",
 	grille:{
 	  largeur:7,
       hauteur:6,
@@ -219,10 +220,17 @@ export class GrilleComponent implements OnInit {
   largeur7():boolean {
 	return this.partie.grille.largeur>=7;
   }
+  
+  getAll():void{
+	this.donneesService.getJoueur1().subscribe(joueur1 => this.partie.joueur1 = joueur1);
+	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);
+	this.donneesService.getGrille().subscribe(grille => this.partie.grille = grille);
+  }
 
-  constructor() { }
+  constructor(private donneesService: DonneesService) {}
 
   ngOnInit(): void {
+	this.getAll();
     for(var i = 0; i < this.partie.grille.largeur; i++){
       this.tableau[i] = new Array(this.partie.grille.hauteur);
     }

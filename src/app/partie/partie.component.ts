@@ -4,6 +4,7 @@ import { Grille } from '../grille';
 import { GrilleComponent } from './grille/grille.component';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { DonneesService } from '../donnees.service';
 
 @Component({
   selector: 'app-partie',
@@ -13,8 +14,8 @@ import { Router } from '@angular/router';
 export class PartieComponent implements OnInit {
 
   partie: Partie = {
-	joueur1:"Colin",
-    joueur2:"Lucas",
+	joueur1:"Joueur1",
+    joueur2:"Joueur2",
 	grille:{
 	  largeur:7,
       hauteur:6,
@@ -45,13 +46,10 @@ export class PartieComponent implements OnInit {
 	}
   }
   
-  toString():string{  
-	return (this.partie.joueur1=="" ? "Joueur1" : this.partie.joueur1) + "." + (this.partie.joueur2=="" ? "Joueur2" : this.partie.joueur2) + "." + this.partie.grille.largeur + "." + this.partie.grille.hauteur;
-  }
-  
   retourMenu():void{
 	if(confirm('Êtes-vous sûr de vouloir retourner au menu ?\nCela va mettre fin à la partie !')) {
-      this.router.navigate(['/parametres', this.toString()]);
+	  this.set(this.partie.joueur1, this.partie.joueur2, this.partie.grille)
+      this.router.navigate(['/parametres']);
 	}
   }
   
@@ -66,29 +64,27 @@ export class PartieComponent implements OnInit {
       this.grilleComponent.nouvellePartie();
 	}
   }
-
-  constructor(private activatedRoute:ActivatedRoute, public router: Router) {
-	//this.partie=this.activatedroute.snapshot.paramMap.get("partie");
+  
+  set(joueur1:string, joueur2:string, grille:Grille):void{
+	if(joueur1==""){
+	  joueur1="Joueur1";
+	}
+	if(joueur2==""){
+	  joueur2="Joueur2";
+	}
+	this.donneesService.set(joueur1, joueur2, grille);
+  }
+  
+  getAll():void{
+	this.donneesService.getJoueur1().subscribe(joueur1 => this.partie.joueur1 = joueur1);
+	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);
+	this.donneesService.getGrille().subscribe(grille => this.partie.grille = grille);
   }
 
+  constructor(private activatedRoute:ActivatedRoute, public router: Router, private donneesService: DonneesService) {}
+
   ngOnInit(): void {
-	this.activatedRoute.paramMap.subscribe(params => {
-	var str=params.get('partie');
-	if(str!=null){
-	  this.partie={
-	    joueur1:str.split('.')[0],
-        joueur2:str.split('.')[1],
-	    grille:{
-	      largeur:Number(str.split('.')[2]),
-          hauteur:Number(str.split('.')[3]),
-	      hover:false
-        },
-	    score1:0,
-	    score2:0,
-	    tour:1
-      }; 
-	}
-    });
+	this.getAll();
   }
 
 }
