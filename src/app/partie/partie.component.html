@@ -1,0 +1,13 @@
+<div id="left">
+<h3>Puissance 4</h3>
+<button (click)="retourMenu()">Retour au menu</button>
+<div>Score</div>
+<div id="joueur1">{{partie.joueur1}} : {{partie.score1}}</div>
+<div id="joueur2">{{partie.joueur2}} : {{partie.score2}}</div>
+<button (click)="nouvelleManche()">Nouvelle manche</button>
+<button (click)="nouvellePartie()">Nouvelle partie</button>
+</div>
+<div id="right">
+	<h3>{{getStr1()}}<span id="{{partie.tour==1 ? 'joueur1' : 'joueur2'}}">{{partie.tour==1 ? partie.joueur1 : partie.joueur2}}</span>{{getStr2()}}</h3>
+	<app-grille [partie]="partie"></app-grille>
+</div>
