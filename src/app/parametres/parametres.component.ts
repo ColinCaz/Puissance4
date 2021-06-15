@@ -54,6 +54,17 @@ export class ParametresComponent implements OnInit {
 	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);
 	this.donneesService.getGrille().subscribe(grille => this.partie.grille = grille);
 	this.donneesService.getGrilles().subscribe(grilles => this.grilles = grilles);
+	
+	let tab:Array<Array<number>> = new Array(this.partie.grille.largeur);
+	for(var i = 0; i < this.partie.grille.largeur; i++){
+      tab[i] = new Array(this.partie.grille.hauteur);
+    }
+	for(var i = 0; i < this.partie.grille.largeur; i++){
+      for(var j = 0; j < this.partie.grille.hauteur; j++){
+        tab[i][j] = 0;
+      }
+    }
+	this.donneesService.setTab(tab);
   }
   
   setGrille(grille:Grille):void{

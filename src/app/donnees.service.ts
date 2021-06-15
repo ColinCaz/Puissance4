@@ -48,17 +48,17 @@ export class DonneesService {
   }
   
   getJoueur1():Observable<string>{
-	return of(""+localStorage.getItem('joueur1'));
+	return of("" + (localStorage.getItem('joueur1')==null ? "" : localStorage.getItem('joueur1')));
   }
   
   getJoueur2():Observable<string>{
-	return of(""+localStorage.getItem('joueur2'));
+	return of("" + (localStorage.getItem('joueur2')==null ? "" : localStorage.getItem('joueur2')));
   }
   
   getGrille():Observable<Grille>{
 	let grille: Grille = {
-	  largeur:Number(localStorage.getItem('largeur')),
-	  hauteur:Number(localStorage.getItem('hauteur')),
+	  largeur:Number(localStorage.getItem('largeur')==null ? 7 : localStorage.getItem('largeur')),
+	  hauteur:Number(localStorage.getItem('hauteur')==null ? 6 : localStorage.getItem('hauteur')),
 	  hover:false
 	}
 	return of(grille);
@@ -69,26 +69,26 @@ export class DonneesService {
   }
   
   getTab():Observable<Array<Array<number>>>{
-	let largeur:number=Number(localStorage.getItem('largeur'));
-	let hauteur:number=Number(localStorage.getItem('hauteur'));
+	let largeur:number=Number(localStorage.getItem('largeur')==null ? 7 : localStorage.getItem('largeur'));
+	let hauteur:number=Number(localStorage.getItem('hauteur')==null ? 6 : localStorage.getItem('hauteur'));
 	let tab:Array<Array<number>> = new Array(largeur);
 	for(var i = 0; i < largeur; i++){
       tab[i] = new Array(hauteur);
     }
 	for(var i = 0; i < largeur; i++){
       for(var j = 0; j < hauteur; j++){
-        tab[i][j] = Number(localStorage.getItem("\'tab["+i+"]["+j+"]\'"));
+        tab[i][j] = Number(localStorage.getItem("\'tab["+i+"]["+j+"]\'")==null ? 0 : localStorage.getItem("\'tab["+i+"]["+j+"]\'"));
       }
     }
 	return of(tab);
   }
   
   getScore():Observable<number[]>{
-    return of([Number(localStorage.getItem('score1')),Number(localStorage.getItem('score2'))]);
+    return of([Number(localStorage.getItem('score1')==null ? 0 : localStorage.getItem('score1')),Number(localStorage.getItem('score2')==null ? 0 : localStorage.getItem('score2'))]);
   }
   
   getTour():Observable<number>{
-    return of(Number(localStorage.getItem('tour')));
+    return of(Number(localStorage.getItem('tour')==null ? 1 : localStorage.getItem('tour')));
   }
 
   constructor() {}
