@@ -20,37 +20,18 @@ export class GrilleComponent implements OnInit {
     },
 	score1:0,
 	score2:0,
-	tour:1
+	tour:1,
+	gameOver:false
   };
   
-  gameOver:boolean=false;
-  
-  getStr1():string{
-	if(this.gameOver){
-	  return "";
-	}
-	else{
-	  return "C\'est au tour de ";
-	}
-  }
-  
-  getStr2():string{
-	if(this.gameOver){
-	  return " a gagné cette manche !";
-	}
-	else{
-	  return "";
-	}
-  }
-  
-  tableau:Array<any[]> = new Array(this.partie.grille.largeur);
+  tableau:Array<Array<number>> = new Array(this.partie.grille.largeur);
   
   get(i:number,j:number):number{
     return this.tableau[i][j];
   }
   
   click(i:number,j:number):void{
-	if(this.gameOver){
+	if(this.partie.gameOver){
 	  this.nouvelleManche();
 	  return;
 	}
@@ -86,6 +67,7 @@ export class GrilleComponent implements OnInit {
           }
 		}
 	  }
+	  this.setTab();
 	}
   }
   
@@ -125,15 +107,15 @@ export class GrilleComponent implements OnInit {
   
   check(n:number):void{
 	if(this.checkVertical(n) || this.checkHorizontal(n) || this.checkDiagonal(n)){
-	  n==1 ? this.partie.score1++ : this.partie.score2++;
-	  this.gameOver=true;
+	  n==1 ? this.setScore(this.partie.score1+1,this.partie.score2) : this.setScore(this.partie.score1,this.partie.score2+1);
+	  this.setGameOver(true);
 	}
 	else{
 	  if(this.partie.tour==1){
-	    this.partie.tour=2;
+	    this.setTour(2);
 	  }
 	  else{
-	    this.partie.tour=1;
+	    this.setTour(1);
 	  }
 	}
   }
@@ -194,51 +176,60 @@ export class GrilleComponent implements OnInit {
   }
   
   nouvelleManche():void{
-	this.gameOver=false;
-	this.partie.tour=1;
+	this.setGameOver(false);
+	this.setTour(this.partie.tour==1 ? 2 : 1);
 	for(var i = 0; i < this.partie.grille.largeur; i++){
       for(var j = 0; j < this.partie.grille.hauteur; j++){
         this.tableau[i][j] = 0;
       }
     }
+	this.setTab();
   }
   
   nouvellePartie():void{
 	this.nouvelleManche();
-	this.partie.score1=0;
-	this.partie.score2=0;
-  }
-  
-  hauteur5():boolean {
-	return this.partie.grille.hauteur>=5;
-  }
-  
-  hauteur6():boolean {
-	return this.partie.grille.hauteur>=6;
+	this.setTour(1);
+	this.setScore(0,0);
   }
   
   largeur7():boolean {
 	return this.partie.grille.largeur>=7;
   }
   
+  setScore(score1:number, score2:number){
+	this.donneesService.setScore(score1, score2);
+	this.partie.score1=score1;
+	this.partie.score2=score2;
+  }
+  
+  setTour(tour:number){
+	this.donneesService.setTour(tour);
+	this.partie.tour=tour;
+  }
+  
+  setTab(){
+	this.donneesService.setTab(this.tableau);
+  }
+  
+  setGameOver(gameOver:boolean){
+	this.partie.gameOver=gameOver;
+	this.donneesService.setGameOver(gameOver);
+  }
+  
   getAll():void{
 	this.donneesService.getJoueur1().subscribe(joueur1 => this.partie.joueur1 = joueur1);
 	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);
 	this.donneesService.getGrille().subscribe(grille => this.partie.grille = grille);
+	this.donneesService.getGameOver().subscribe(gameOver => this.partie.gameOver = gameOver);
+	this.donneesService.getTab().subscribe(tab => this.tableau = tab);
+    this.donneesService.getScore().subscribe(score => {this.partie.score1 = score[0]; this.partie.score2 = score[1];});
+	this.donneesService.getTour().subscribe(tour => this.partie.tour = tour);
   }
 
   constructor(private donneesService: DonneesService) {}
 
   ngOnInit(): void {
 	this.getAll();
-    for(var i = 0; i < this.partie.grille.largeur; i++){
-      this.tableau[i] = new Array(this.partie.grille.hauteur);
-    }
-	for(var i = 0; i < this.partie.grille.largeur; i++){
-      for(var j = 0; j < this.partie.grille.hauteur; j++){
-        this.tableau[i][j] = 0;
-      }
-    }
   }
 
 }

@@ -7,4 +7,5 @@ export interface Partie {
   score1: number;
   score2: number;
   tour:number;
+  gameOver:boolean;
 }

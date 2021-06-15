@@ -3,7 +3,6 @@ import { Grille } from '../grille';
 import { DonneesService } from '../donnees.service';
 import { Partie } from '../partie/partie';
 import { GrilleComponent } from '../partie/grille/grille.component';
-import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,21 +22,9 @@ export class ParametresComponent implements OnInit {
     },
 	score1:0,
 	score2:0,
-	tour:1
+	tour:1,
+	gameOver:false
   };
-  
-  onSelect(grille: Grille): void {
-    this.partie.grille = grille;
-	this.set(this.partie.joueur1, this.partie.joueur2, this.partie.grille);
-  }
-  
-  hauteur5(grille: Grille):boolean {
-	return grille.hauteur>=5;
-  }
-  
-  hauteur6(grille: Grille):boolean {
-	return grille.hauteur>=6;
-  }
   
   largeur7(grille: Grille):boolean {
 	return grille.largeur>=7;
@@ -55,6 +42,11 @@ export class ParametresComponent implements OnInit {
 	return grille.largeur==this.partie.grille.largeur && grille.hauteur==this.partie.grille.hauteur;
   }
   
+  onSelect(grille: Grille): void {
+    this.partie.grille = grille;
+	this.setGrille(this.partie.grille);
+  }
+  
   grilles: Grille[] = [];
   
   get():void{
@@ -64,22 +56,39 @@ export class ParametresComponent implements OnInit {
 	this.donneesService.getGrilles().subscribe(grilles => this.grilles = grilles);
   }
   
-  set(joueur1:string, joueur2:string, grille:Grille):void{
+  setGrille(grille:Grille):void{
+	this.donneesService.setGrille(grille);
+  }
+  
+  set(joueur1:string, joueur2:string):void{
 	if(joueur1==""){
 	  joueur1="Joueur1";
 	}
 	if(joueur2==""){
 	  joueur2="Joueur2";
 	}
-	this.donneesService.set(joueur1, joueur2, grille);
+	this.donneesService.setJoueur1(joueur1);
+	this.donneesService.setJoueur2(joueur2);
+	this.donneesService.setScore(0,0);
+	this.donneesService.setTour(1);
+	let tab:Array<Array<number>> = new Array(this.partie.grille.largeur);
+	for(var i = 0; i < this.partie.grille.largeur; i++){
+      tab[i] = new Array(this.partie.grille.hauteur);
+    }
+	for(var i = 0; i < this.partie.grille.largeur; i++){
+      for(var j = 0; j < this.partie.grille.hauteur; j++){
+        tab[i][j] = 0;
+      }
+    }
+	this.donneesService.setTab(tab);
   }
   
   click():void{
-	this.set(this.partie.joueur1, this.partie.joueur2, this.partie.grille);
+	this.set(this.partie.joueur1, this.partie.joueur2);
 	this.router.navigate(['/partie']);
   }
 
-  constructor(private activatedRoute:ActivatedRoute, public router: Router, private donneesService: DonneesService) {}
+  constructor(public router: Router, private donneesService: DonneesService) {}
 
   ngOnInit(): void {
 	this.get();

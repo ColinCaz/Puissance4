@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Partie } from './partie';
 import { Grille } from '../grille';
 import { GrilleComponent } from './grille/grille.component';
-import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { DonneesService } from '../donnees.service';
 
@@ -23,32 +22,29 @@ export class PartieComponent implements OnInit {
     },
 	score1:0,
 	score2:0,
-	tour:1
+	tour:1,
+	gameOver:false
   };
   
-  @ViewChild(GrilleComponent) grilleComponent!:GrilleComponent;
-  
   getStr1():string{
-	if(this.grilleComponent!=undefined){
-	  return this.grilleComponent.getStr1();
+	if(!this.partie.gameOver){
+	  return "C\'est au tour de ";
 	}
-	else{
-		return "C\'est au tour de ";
-	}
+	return "";
   }
   
   getStr2():string{
-	if(this.grilleComponent!=undefined){
-	  return this.grilleComponent.getStr2();
+	if(this.partie.gameOver){
+	  return " a gagné cette manche !";
 	}
-	else{
-		return "";
-	}
+	return "";
   }
+  
+  @ViewChild(GrilleComponent) grilleComponent!:GrilleComponent;
   
   retourMenu():void{
 	if(confirm('Êtes-vous sûr de vouloir retourner au menu ?\nCela va mettre fin à la partie !')) {
-	  this.set(this.partie.joueur1, this.partie.joueur2, this.partie.grille)
+	  this.grilleComponent.nouvellePartie();
       this.router.navigate(['/parametres']);
 	}
   }
@@ -65,23 +61,16 @@ export class PartieComponent implements OnInit {
 	}
   }
   
-  set(joueur1:string, joueur2:string, grille:Grille):void{
-	if(joueur1==""){
-	  joueur1="Joueur1";
-	}
-	if(joueur2==""){
-	  joueur2="Joueur2";
-	}
-	this.donneesService.set(joueur1, joueur2, grille);
-  }
-  
   getAll():void{
 	this.donneesService.getJoueur1().subscribe(joueur1 => this.partie.joueur1 = joueur1);
 	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);
 	this.donneesService.getGrille().subscribe(grille => this.partie.grille = grille);
+	this.donneesService.getGameOver().subscribe(gameOver => this.partie.gameOver = gameOver);
+    this.donneesService.getScore().subscribe(score => {this.partie.score1 = score[0]; this.partie.score2 = score[1];});
+	this.donneesService.getTour().subscribe(tour => this.partie.tour = tour);
   }
 
-  constructor(private activatedRoute:ActivatedRoute, public router: Router, private donneesService: DonneesService) {}
+  constructor(public router: Router, private donneesService: DonneesService) {}
 
   ngOnInit(): void {
 	this.getAll();
