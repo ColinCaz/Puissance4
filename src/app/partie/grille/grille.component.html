@@ -1,0 +1,5 @@
+<div style="width:75%; margin:auto;">
+	<div id="colonne" *ngFor="let itemi of [].constructor(partie.grille.hauteur); let i = index" [ngStyle]="{marginLeft: largeur7() ? '10.7142855%' : '21.4285715%' , width: largeur7() ? '78.571429%' : '57.142857%' , padding: i==0 ? '1.5625% 0 1.5625%' : '0 0 1.5625%'}">
+		<div id="ligne" *ngFor="let itemj of [].constructor(partie.grille.largeur); let j = index" [ngStyle]="{paddingTop: largeur7() ? '9.090909%' : '12.5%' , width: largeur7() ? '9.090909%' : '12.5%' , margin: largeur7() ? '0 2.272727% 0 2.272727%' : '0 3.125% 0 3.125%' , backgroundColor: get(j,i)==1 ? '#F68E5F' : get(j,i)==2 ? '#947EB0' : get(j,i)==3 ? '#EFEFEF' : ''}" (click)="click(j,i)" (mouseenter) ="mouseEnter(j,i) "  (mouseleave) ="mouseLeave(j,i)"></div>
+	</div>
+</div>

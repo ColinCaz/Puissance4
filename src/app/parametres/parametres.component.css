@@ -1,0 +1,92 @@
+*{
+	text-align:center;
+	font-family:'Roboto', sans-serif;
+}
+h1{
+	font-size:500%;
+	margin:0;
+	padding-bottom:5%;
+}
+h2{
+	font-size:300%;
+	margin:0;
+	padding:0;
+	color:#EFEFEF;
+	padding-bottom:2%;
+}
+h3{
+	font-size:200%;
+	margin:0;
+	padding:0;
+}
+ul{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+li{
+	padding-top:7%;
+}
+li.selected{
+	color:#EFEFEF;
+}
+#left {
+	display:inline-block;
+	position:absolute;
+	top:0;
+	bottom:0;
+	padding-top:2%;
+	width:22%;
+	background-color:#A0D2DB;
+	color:#333333;
+}
+#right {
+	display:inline-block;
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	padding-top:2%;
+	text-align:center;
+	width:78%;
+	background-color:#333333;
+	color:#A0D2DB;
+}
+#ligne{
+	height:100%;
+}
+#colonne{
+	display:inline-block;
+	border-radius:50%;
+}
+.joueur{
+	font-size:300%;
+	background:none;
+	border:none;
+	margin:0;
+	padding:0;
+	margin-bottom:2%;
+	font-weight:bold;
+	width:50%;
+	outline-style:none;
+}
+#joueur1{
+	color:#F68E5F;
+}
+#joueur2{
+	color:#947EB0;
+}
+button{
+	font-size:250%;
+	background:none;
+	border:none;
+	margin:0;
+	padding:0;
+	color:#EFEFEF;
+	font-weight:bold;
+	margin-top:5%;
+	outline-style:none;
+}
+button:hover{
+	color:#A0D2DB;
+}
