@@ -4,11 +4,14 @@
 }
 #ligne{
 	display:inline-block;
+	width:100%;
+	padding-top:100%;
 	border-radius:50%;
 	background-color:#A0D2DB;
 }
 #colonne{
-	width:10%;
+	display:inline-block;
+	width:9.090909%;
 	background-color:#333333;
 }
 .joueur{
