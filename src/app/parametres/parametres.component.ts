@@ -20,6 +20,7 @@ export class ParametresComponent implements OnInit {
       hauteur:6,
 	  hover:false
     },
+    tableau:new Array(7),
 	score1:0,
 	score2:0,
 	tour:1,
@@ -50,6 +51,9 @@ export class ParametresComponent implements OnInit {
   grilles: Grille[] = [];
   
   get():void{
+	this.donneesService.getPartie().subscribe(partie => this.partie = partie);
+	this.donneesService.getGrilles().subscribe(grilles => this.grilles = grilles);
+	/*
 	this.donneesService.getJoueur1().subscribe(joueur1 => this.partie.joueur1 = joueur1);
 	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);
 	this.donneesService.getGrille().subscribe(grille => this.partie.grille = grille);
@@ -65,6 +69,7 @@ export class ParametresComponent implements OnInit {
       }
     }
 	this.donneesService.setTab(tab);
+	*/
   }
   
   setGrille(grille:Grille):void{
@@ -82,16 +87,16 @@ export class ParametresComponent implements OnInit {
 	this.donneesService.setJoueur2(joueur2);
 	this.donneesService.setScore(0,0);
 	this.donneesService.setTour(1);
-	let tab:Array<Array<number>> = new Array(this.partie.grille.largeur);
+	this.partie.tableau = new Array(this.partie.grille.largeur);
 	for(var i = 0; i < this.partie.grille.largeur; i++){
-      tab[i] = new Array(this.partie.grille.hauteur);
+      this.partie.tableau[i] = new Array(this.partie.grille.hauteur);
     }
 	for(var i = 0; i < this.partie.grille.largeur; i++){
       for(var j = 0; j < this.partie.grille.hauteur; j++){
-        tab[i][j] = 0;
+        this.partie.tableau[i][j] = 0;
       }
     }
-	this.donneesService.setTab(tab);
+	this.donneesService.setTab(this.partie.tableau);
   }
   
   click():void{

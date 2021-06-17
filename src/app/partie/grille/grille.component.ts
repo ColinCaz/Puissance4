@@ -10,7 +10,7 @@ import { DonneesService } from '../../donnees.service';
 })
 export class GrilleComponent implements OnInit {
 
-  @Input() partie: Partie = {
+  @Input() partie:Partie = {
 	joueur1:"Joueur1",
     joueur2:"Joueur2",
 	grille:{
@@ -18,16 +18,15 @@ export class GrilleComponent implements OnInit {
       hauteur:6,
 	  hover:false
     },
+    tableau:new Array(7),
 	score1:0,
 	score2:0,
 	tour:1,
 	gameOver:false
   };
   
-  tableau:Array<Array<number>> = new Array(this.partie.grille.largeur);
-  
   get(i:number,j:number):number{
-    return this.tableau[i][j];
+    return this.partie.tableau[i][j];
   }
   
   click(i:number):void{
@@ -35,35 +34,34 @@ export class GrilleComponent implements OnInit {
 	  this.nouvelleManche();
 	  return;
 	}
-	if(i<this.partie.grille.largeur && (this.tableau[i][0]==0 || this.tableau[i][0]==3)){
+	if(i<this.partie.grille.largeur && (this.partie.tableau[i][0]==0 || this.partie.tableau[i][0]==3)){
 	  for(var j = 0; j < this.partie.grille.hauteur; j++){
-        if(this.tableau[i][j]!=0 && this.tableau[i][j]!=3 && j-1>=0){
-          this.tableau[i][j-1] = this.partie.tour;
+        if(this.partie.tableau[i][j]!=0 && this.partie.tableau[i][j]!=3 && j-1>=0){
+          this.partie.tableau[i][j-1] = this.partie.tour;
 		  if(j>1){
-		    this.tableau[i][j-2]=3;
+		    this.partie.tableau[i][j-2]=3;
 		  }
 		  this.check(this.partie.tour);
 		  break;
         }
 		if(j==this.partie.grille.hauteur-1){
-		  this.tableau[i][j] = this.partie.tour;
-		  this.tableau[i][j-1]=3;
+		  this.partie.tableau[i][j] = this.partie.tour;
+		  this.partie.tableau[i][j-1]=3;
 		  this.check(this.partie.tour);
 		}
 	  }
-	  this.setTab();
 	}
   }
   
   mouseEnter(i:number):void{
-	if(i<this.partie.grille.largeur && (this.tableau[i][0]==0 || this.tableau[i][0]==3)){
+	if(i<this.partie.grille.largeur && (this.partie.tableau[i][0]==0 || this.partie.tableau[i][0]==3)){
 	  for(var j = 0; j < this.partie.grille.hauteur; j++){
-        if(this.tableau[i][j]!=0 && j-1>=0){
-          this.tableau[i][j-1] = 3;
+        if(this.partie.tableau[i][j]!=0 && j-1>=0){
+          this.partie.tableau[i][j-1] = 3;
 		  break;
         }
 		if(j==this.partie.grille.hauteur-1){
-		  this.tableau[i][j] = 3;
+		  this.partie.tableau[i][j] = 3;
 		}
 	  }
 	}
@@ -72,8 +70,8 @@ export class GrilleComponent implements OnInit {
   mouseLeave():void{
 	for(var i = 0; i < this.partie.grille.largeur; i++){
 	  for(var j = 0; j < this.partie.grille.hauteur; j++){
-		if(this.tableau[i][j]==3){
-		  this.tableau[i][j]=0;
+		if(this.partie.tableau[i][j]==3){
+		  this.partie.tableau[i][j]=0;
 		}
 	  }
 	}
@@ -92,13 +90,14 @@ export class GrilleComponent implements OnInit {
 	    this.setTour(1);
 	  }
 	}
+	this.donneesService.setTab(this.partie.tableau);
   }
   
   checkVertical(n:number):boolean{
 	for(var i=0; i<this.partie.grille.largeur; i++){
 	  var count=0;
 	  for(var j = 0; j < this.partie.grille.hauteur; j++){
-		if(this.tableau[i][j]==n){
+		if(this.partie.tableau[i][j]==n){
 		  count++;
 		  if(count==4){
 			return true;
@@ -117,7 +116,7 @@ export class GrilleComponent implements OnInit {
 	for(var i=0; i<this.partie.grille.hauteur; i++){
 	  var count=0;
 	  for(var j = 0; j < this.partie.grille.largeur; j++){
-		if(this.tableau[j][i]==n){
+		if(this.partie.tableau[j][i]==n){
 		  count++;
 		  if(count==4){
 			return true;
@@ -134,14 +133,14 @@ export class GrilleComponent implements OnInit {
   checkDiagonal(n:number):boolean{
 	for(var i=0; i<this.partie.grille.largeur-3; i++){
 	  for(var j = 0; j < this.partie.grille.hauteur-3; j++){
-	    if(this.tableau[i][j]==n && this.tableau[i+1][j+1]==n && this.tableau[i+2][j+2]==n && this.tableau[i+3][j+3]==n){
+	    if(this.partie.tableau[i][j]==n && this.partie.tableau[i+1][j+1]==n && this.partie.tableau[i+2][j+2]==n && this.partie.tableau[i+3][j+3]==n){
 		  return true;
 		}
 	  }
 	}
 	for(var i=3; i<this.partie.grille.largeur; i++){
 	  for(var j = 0; j < this.partie.grille.hauteur-3; j++){
-	    if(this.tableau[i][j]==n && this.tableau[i-1][j+1]==n && this.tableau[i-2][j+2]==n && this.tableau[i-3][j+3]==n){
+	    if(this.partie.tableau[i][j]==n && this.partie.tableau[i-1][j+1]==n && this.partie.tableau[i-2][j+2]==n && this.partie.tableau[i-3][j+3]==n){
 		  return true;
 		}
 	  }
@@ -154,10 +153,10 @@ export class GrilleComponent implements OnInit {
 	this.setTour(this.partie.tour==1 ? 2 : 1);
 	for(var i = 0; i < this.partie.grille.largeur; i++){
       for(var j = 0; j < this.partie.grille.hauteur; j++){
-        this.tableau[i][j] = 0;
+        this.partie.tableau[i][j] = 0;
       }
     }
-	this.setTab();
+	this.donneesService.setTab(this.partie.tableau);
   }
   
   nouvellePartie():void{
@@ -181,23 +180,23 @@ export class GrilleComponent implements OnInit {
 	this.partie.tour=tour;
   }
   
-  setTab(){
-	this.donneesService.setTab(this.tableau);
-  }
-  
   setGameOver(gameOver:boolean){
 	this.partie.gameOver=gameOver;
 	this.donneesService.setGameOver(gameOver);
   }
   
   getAll():void{
+	this.donneesService.getPartie().subscribe(partie => this.partie = partie);
+	console.log(this.partie);
+	/*
 	this.donneesService.getJoueur1().subscribe(joueur1 => this.partie.joueur1 = joueur1);
 	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);
 	this.donneesService.getGrille().subscribe(grille => this.partie.grille = grille);
 	this.donneesService.getGameOver().subscribe(gameOver => this.partie.gameOver = gameOver);
-	this.donneesService.getTab().subscribe(tab => this.tableau = tab);
+	this.donneesService.getTab().subscribe(tab => this.partie.tableau = tab);
     this.donneesService.getScore().subscribe(score => {this.partie.score1 = score[0]; this.partie.score2 = score[1];});
 	this.donneesService.getTour().subscribe(tour => this.partie.tour = tour);
+	*/
   }
 
   constructor(private donneesService: DonneesService) {}
