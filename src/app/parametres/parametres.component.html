@@ -4,8 +4,10 @@
 <ul class="grilles">
   <li *ngFor="let grille of grilles" [class.selected]="isSelected(grille)" (click)="onSelect(grille)" (mouseover)="setHover(true, grille)" (mouseleave)="setHover(false, grille)">
     {{grille.largeur}}x{{grille.hauteur}}
-	<div id="ligne" *ngFor="let itemi of [].constructor(grille.hauteur); let i = index" [ngStyle]="{backgroundColor: isSelected(grille) ? getHover(grille)  ? '#A0D2DB' : '#EFEFEF' : getHover(grille)  ? '#A0D2DB' : '#333333' , marginLeft: largeur7(grille) ? '10.7142855%' : '21.4285715%' , width: largeur7(grille) ? '78.571429%' : '57.142857%' , padding: i==0 ? '1.5625% 0 1.5625%' : '0 0 1.5625%'}">
-		<div id="colonne" *ngFor="let itemj of [].constructor(grille.largeur)" [ngStyle]="{backgroundColor: isSelected(grille) ? getHover(grille)  ? '#EFEFEF' : '#A0D2DB' : getHover(grille)  ? '#333333' : '#A0D2DB' , paddingTop: largeur7(grille) ? '9.090909%' : '12.5%' , width: largeur7(grille) ? '9.090909%' : '12.5%' , margin: largeur7(grille) ? '0 2.272727% 0 2.272727%' : '0 3.125% 0 3.125%'}"></div>
+	<div style="width:75%; margin:auto; padding-top:2%;">
+	  <div id="colonne" *ngFor="let itemi of [].constructor(grille.largeur); let i = index" [ngStyle]="{padding: i==0 ? '0 2.272727% 0 4.545455%' : i==grille.largeur-1 ? '0 4.545455% 0 2.272727%' : '0 2.272727% 0 2.272727%' , backgroundColor: isSelected(grille) ? getHover(grille)  ? '#A0D2DB' : '#EFEFEF' : getHover(grille)  ? '#A0D2DB' : '#333333'}">
+		<div id="ligne" *ngFor="let itemj of [].constructor(grille.hauteur); let j = index" [ngStyle]="{margin: j==0 ? '25% auto 25% auto' : '0 auto 25% auto' , backgroundColor: isSelected(grille) ? getHover(grille)  ? '#EFEFEF' : '#A0D2DB' : getHover(grille)  ? '#333333' : '#A0D2DB'}"></div>
+	  </div>
 	</div>
   </li>
 </ul>

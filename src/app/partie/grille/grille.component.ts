@@ -30,73 +30,47 @@ export class GrilleComponent implements OnInit {
     return this.tableau[i][j];
   }
   
-  click(i:number,j:number):void{
+  click(i:number):void{
 	if(this.partie.gameOver){
 	  this.nouvelleManche();
 	  return;
 	}
-	if(i<this.partie.grille.largeur && j<this.partie.grille.hauteur){
-	  if(this.tableau[i][j]==0 || this.tableau[i][j]==3){
-		for(var jj = j; jj < this.partie.grille.hauteur; jj++){
-          if(this.tableau[i][jj]!=0 && this.tableau[i][jj]!=3){
-            this.tableau[i][jj-1] = this.partie.tour;
-			if(jj>1){
-			  this.tableau[i][jj-2]=3;
-			}
-			this.check(this.partie.tour);
-			break;
-          }
-		  if(jj==this.partie.grille.hauteur-1){
-			this.tableau[i][jj] = this.partie.tour;
-			if(jj>0){
-			  this.tableau[i][jj-1]=3;
-			}
-			this.check(this.partie.tour);
+	if(i<this.partie.grille.largeur && (this.tableau[i][0]==0 || this.tableau[i][0]==3)){
+	  for(var j = 0; j < this.partie.grille.hauteur; j++){
+        if(this.tableau[i][j]!=0 && this.tableau[i][j]!=3 && j-1>=0){
+          this.tableau[i][j-1] = this.partie.tour;
+		  if(j>1){
+		    this.tableau[i][j-2]=3;
 		  }
-		}
-      }
-	  else{
-		for(var jj = j; jj >= 0; jj--){
-          if(this.tableau[i][jj]==0  || this.tableau[i][jj]==3){
-            this.tableau[i][jj] = this.partie.tour;
-			if(jj>0){
-			  this.tableau[i][jj-1]=3;
-			}
-			this.check(this.partie.tour);
-			break;
-          }
+		  this.check(this.partie.tour);
+		  break;
+        }
+		if(j==this.partie.grille.hauteur-1){
+		  this.tableau[i][j] = this.partie.tour;
+		  this.tableau[i][j-1]=3;
+		  this.check(this.partie.tour);
 		}
 	  }
 	  this.setTab();
 	}
   }
   
-  mouseEnter(i:number,j:number):void{
-	if(i<this.partie.grille.largeur && j<this.partie.grille.hauteur){
-	  if(this.tableau[i][j]==0){
-		for(var jj = j; jj < this.partie.grille.hauteur; jj++){
-          if(this.tableau[i][jj]!=0){
-            this.tableau[i][jj-1] = 3;
-			break;
-          }
-		  if(jj==this.partie.grille.hauteur-1){
-			this.tableau[i][jj] = 3;
-		  }
-		}
-      }
-	  else{
-		for(var jj = j; jj >= 0; jj--){
-          if(this.tableau[i][jj]==0){
-            this.tableau[i][jj] = 3;
-			break;
-          }
+  mouseEnter(i:number):void{
+	if(i<this.partie.grille.largeur && (this.tableau[i][0]==0 || this.tableau[i][0]==3)){
+	  for(var j = 0; j < this.partie.grille.hauteur; j++){
+        if(this.tableau[i][j]!=0 && j-1>=0){
+          this.tableau[i][j-1] = 3;
+		  break;
+        }
+		if(j==this.partie.grille.hauteur-1){
+		  this.tableau[i][j] = 3;
 		}
 	  }
 	}
   }
   
-  mouseLeave(i:number,j:number):void{
-	for(var i=0; i<this.partie.grille.largeur; i++){
+  mouseLeave():void{
+	for(var i = 0; i < this.partie.grille.largeur; i++){
 	  for(var j = 0; j < this.partie.grille.hauteur; j++){
 		if(this.tableau[i][j]==3){
 		  this.tableau[i][j]=0;
