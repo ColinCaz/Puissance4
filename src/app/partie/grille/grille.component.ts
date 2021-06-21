@@ -26,7 +26,10 @@ export class GrilleComponent implements OnInit {
   };
   
   get(i:number,j:number):number{
+	  console.log(i+" "+j);
+	if(this.partie.tableau[i][j]!=undefined)
     return this.partie.tableau[i][j];
+	return 0;
   }
   
   click(i:number):void{
@@ -187,7 +190,6 @@ export class GrilleComponent implements OnInit {
   
   getAll():void{
 	this.donneesService.getPartie().subscribe(partie => this.partie = partie);
-	console.log(this.partie);
 	/*
 	this.donneesService.getJoueur1().subscribe(joueur1 => this.partie.joueur1 = joueur1);
 	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);

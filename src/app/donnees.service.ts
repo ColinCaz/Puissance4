@@ -106,19 +106,19 @@ export class DonneesService {
   }
   
   getJoueur1():Observable<string>{
-	this.getPartieFromServer();
+	//this.getPartieFromServer();
 	return of(this.partie.joueur1);
 	//return of("" + (localStorage.getItem('joueur1')==null ? "" : localStorage.getItem('joueur1')));
   }
   
   getJoueur2():Observable<string>{
-	this.getPartieFromServer();
+	//this.getPartieFromServer();
 	return of(this.partie.joueur2);
 	//return of("" + (localStorage.getItem('joueur2')==null ? "" : localStorage.getItem('joueur2')));
   }
   
   getGrille():Observable<Grille>{
-	this.getPartieFromServer();
+	//this.getPartieFromServer();
 	return of(this.partie.grille);
 	/*let grille: Grille = {
 	  largeur:Number(localStorage.getItem('largeur')==null ? 7 : localStorage.getItem('largeur')),
@@ -129,7 +129,7 @@ export class DonneesService {
   }
   
   getTab():Observable<Array<Array<number>>>{
-	this.getPartieFromServer();
+	//this.getPartieFromServer();
 	return of(this.partie.tableau);
 	/*let largeur:number=Number(localStorage.getItem('largeur')==null ? 7 : localStorage.getItem('largeur'));
 	let hauteur:number=Number(localStorage.getItem('hauteur')==null ? 6 : localStorage.getItem('hauteur'));
@@ -146,19 +146,19 @@ export class DonneesService {
   }
   
   getScore():Observable<number[]>{
-    this.getPartieFromServer();
+    //this.getPartieFromServer();
 	return of([this.partie.score1,this.partie.score2]);
 	//return of([Number(localStorage.getItem('score1')==null ? 0 : localStorage.getItem('score1')),Number(localStorage.getItem('score2')==null ? 0 : localStorage.getItem('score2'))]);
   }
   
   getTour():Observable<number>{
-    this.getPartieFromServer();
+    //this.getPartieFromServer();
 	return of(this.partie.tour);
 	//return of(Number(localStorage.getItem('tour')==null ? 1 : localStorage.getItem('tour')));
   }
   
   getGameOver():Observable<boolean>{
-	this.getPartieFromServer();
+	//this.getPartieFromServer();
 	return of(this.partie.gameOver);
 	//return of(localStorage.getItem('gameOver')==String(true));
   }
@@ -173,6 +173,17 @@ export class DonneesService {
     return grilles;
   }
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+	this.partie.tableau = new Array(this.partie.grille.largeur);
+	for(var i = 0; i < this.partie.grille.largeur; i++){
+      this.partie.tableau[i] = new Array(this.partie.grille.hauteur);
+    }
+	for(var i = 0; i < this.partie.grille.largeur; i++){
+      for(var j = 0; j < this.partie.grille.hauteur; j++){
+        this.partie.tableau[i][j] = 0;
+      }
+    }
+	this.getPartieFromServer();
+  }
   
 }
