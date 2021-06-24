@@ -4,6 +4,7 @@ import { Grille } from '../grille';
 import { GrilleComponent } from './grille/grille.component';
 import { Router } from '@angular/router';
 import { DonneesService } from '../donnees.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-partie',
@@ -41,6 +42,10 @@ export class PartieComponent implements OnInit {
 	return "";
   }
   
+  deconnexion(){
+	this.authService.signOutUser();
+  }
+  
   @ViewChild(GrilleComponent) grilleComponent!:GrilleComponent;
   
   retourMenu():void{
@@ -74,7 +79,7 @@ export class PartieComponent implements OnInit {
 	*/
   }
 
-  constructor(public router: Router, private donneesService: DonneesService) {}
+  constructor(public router: Router, private donneesService: DonneesService, private authService: AuthService) {}
 
   ngOnInit(): void {
 	this.getAll();

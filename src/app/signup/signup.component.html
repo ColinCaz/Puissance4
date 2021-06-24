@@ -1,25 +1,28 @@
-<div class="row">
-  <div class="col-sm-8 col-sm-offset-2">
-    <h2>Créer un compte</h2>
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Adresse mail</label>
-        <input type="text"
-               id="email"
-               class="form-control"
-               formControlName="email">
-      </div>
-      <div class="form-group">
-        <label for="password">Mot de passe</label>
-        <input type="password"
-               id="password"
-               class="form-control"
-               formControlName="password">
-      </div>
-      <button class="btn btn-primary"
-              type="submit"
-              [disabled]="signupForm.invalid">Créer mon compte</button>
-    </form>
-    <p class="text-danger">{{ errorMessage }}</p>
-  </div>
+<div id="left">
+  <h3>Puissance 4</h3>
+  <button (click)="connexion()">Se connecter</button>
+</div>
+<div id="right">
+  <h1>Inscription</h1>
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <div id="gauche">
+	  <h2>Prénom :</h2>
+      <input type="text" id="prenom" class="form-control" formControlName="prenom" placeholder="Prénom" autocomplete="off">
+	</div>
+	<div id="droite">
+	  <h2>Adresse mail :</h2>
+      <input type="text" id="email" class="form-control" formControlName="email" placeholder="adresse@mail.com" autocomplete="off" style="width:100%">
+	</div>
+	<div id="gauche">
+	  <h2>Mot de passe :</h2>
+      <input type="password" id="password" class="form-control" formControlName="password" placeholder="******" autocomplete="off">
+	</div>
+	<div id="droite">
+	  <h2>Confirmation mdp :</h2>
+      <input type="password" id="password2" class="form-control" formControlName="password2" placeholder="******" autocomplete="off">
+	</div>
+    <br>
+    <button class="cestparti" type="submit" [disabled]="signupForm.invalid">Inscription</button>
+  </form>
+  <h4>{{errorMessage}}</h4>
 </div>

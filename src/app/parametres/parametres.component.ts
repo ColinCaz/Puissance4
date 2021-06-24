@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Grille } from '../grille';
 import { DonneesService } from '../donnees.service';
+import { AuthService } from '../auth.service';
 import { Partie } from '../partie/partie';
 import { GrilleComponent } from '../partie/grille/grille.component';
 import { Router } from '@angular/router';
@@ -46,6 +47,10 @@ export class ParametresComponent implements OnInit {
   onSelect(grille: Grille): void {
     this.partie.grille = grille;
 	this.setGrille(this.partie.grille);
+  }
+  
+  deconnexion(){
+	this.authService.signOutUser();
   }
   
   grilles: Grille[] = [];
@@ -104,10 +109,11 @@ export class ParametresComponent implements OnInit {
 	this.router.navigate(['/partie']);
   }
 
-  constructor(public router: Router, private donneesService: DonneesService) {}
+  constructor(public router: Router, private donneesService: DonneesService, private authService: AuthService) {}
 
   ngOnInit(): void {
 	this.get();
+    this.partie.joueur1=this.authService.getName();
   }
   
 }

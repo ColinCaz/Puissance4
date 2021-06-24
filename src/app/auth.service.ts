@@ -9,10 +9,40 @@ import 'firebase/auth';
 })
 export class AuthService {
 
-  createNewUser(email: string, password: string) {
+  createNewUser(prenom: string, email: string, password: string){
     return new Promise<void>(
       (resolve, reject) => {
         firebase.auth().createUserWithEmailAndPassword(email, password).then(
+          () => {
+			var user = firebase.auth().currentUser;
+			if(user){
+			  user.updateProfile({
+			    displayName: prenom
+			  }).then(function(){}).catch(function(error) {
+			  });
+			}
+            resolve();
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      }
+    );
+  }
+  
+  getName():string{
+    var user = firebase.auth().currentUser;
+    if (user != null) {
+  	  return user.displayName==null?"":user.displayName;
+    }
+	return "";
+  }
+  
+  signInUser(email: string, password: string) {
+    return new Promise<void>(
+      (resolve, reject) => {
+        firebase.auth().signInWithEmailAndPassword(email, password).then(
           () => {
             resolve();
           },
@@ -24,10 +54,10 @@ export class AuthService {
     );
   }
   
-  signInUser(email: string, password: string) {
+  forgotPassword(email: string) {
     return new Promise<void>(
       (resolve, reject) => {
-        firebase.auth().signInWithEmailAndPassword(email, password).then(
+        firebase.auth().sendPasswordResetEmail(email).then(
           () => {
             resolve();
           },
@@ -51,7 +81,7 @@ export class AuthService {
             if(user) {
               resolve(true);
             } else {
-              this.router.navigate(['/signin']);
+              this.router.navigate(['/connexion']);
               resolve(false);
             }
           }

@@ -58,6 +58,7 @@ button{
 	font-weight:bold;
 	margin-top:5%;
 	padding:10% 0 10%;
+	cursor:pointer;
 }
 button:hover{
 	color:#A0D2DB;
@@ -66,4 +67,15 @@ div{
 	font-size:150%;
 	font-weight:bold;
 	padding:5% 0 5%;
+}
+#deconnexion{
+	position:absolute;
+	right:0;
+	font-size:150%;
+	margin:0;
+	padding:0;
+	padding-right:1%;
+}
+#deconnexion:hover{
+	color:#333333;
 }

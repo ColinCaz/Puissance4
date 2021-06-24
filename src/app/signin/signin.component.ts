@@ -19,6 +19,15 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+	this.authService.signOutUser();
+  }
+  
+  incription() {
+	this.router.navigate(['/inscription']);
+  }
+  
+  motdepasse() {
+	this.router.navigate(['/mot-de-passe-oublie']);
   }
 
   initForm() {

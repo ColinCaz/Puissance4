@@ -11,3 +11,4 @@
 	<h3>{{getStr1()}}<span id="{{partie.tour==1 ? 'joueur1' : 'joueur2'}}">{{partie.tour==1 ? partie.joueur1 : partie.joueur2}}</span>{{getStr2()}}</h3>
 	<app-grille [partie]="partie"></app-grille>
 </div>
+<button id="deconnexion" (click)="deconnexion()">Déconnexion</button>

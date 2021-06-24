@@ -63,6 +63,7 @@ li.selected{
 	display:inline-block;
 	width:9.090909%;
 	background-color:#333333;
+	cursor:pointer;
 }
 .joueur{
 	font-size:300%;
@@ -92,7 +93,15 @@ button{
 	font-weight:bold;
 	margin-top:5%;
 	outline-style:none;
+	cursor:pointer;
 }
 button:hover{
 	color:#A0D2DB;
+}
+#deconnexion{
+	position:absolute;
+	right:0;
+	font-size:150%;
+	margin:0;
+	padding-right:1%;
 }

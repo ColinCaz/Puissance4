@@ -13,6 +13,7 @@ import { ParametresComponent } from './parametres/parametres.component';
 import { GrilleComponent } from './partie/grille/grille.component';
 import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
+import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SigninComponent } from './signin/signin.component';
     ParametresComponent,
     GrilleComponent,
     SignupComponent,
-    SigninComponent
+    SigninComponent,
+    ForgotpasswordComponent
   ],
   imports: [
     BrowserModule,
