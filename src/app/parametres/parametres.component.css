@@ -26,6 +26,7 @@ ul{
 }
 li{
 	padding-top:5%;
+	cursor:pointer;
 }
 li.selected{
 	color:#EFEFEF;
@@ -63,7 +64,6 @@ li.selected{
 	display:inline-block;
 	width:9.090909%;
 	background-color:#333333;
-	cursor:pointer;
 }
 .joueur{
 	font-size:300%;
@@ -74,7 +74,7 @@ li.selected{
 	margin-bottom:2%;
 	padding-bottom:2%;
 	font-weight:bold;
-	width:50%;
+	width:100%;
 	outline-style:none;
 }
 #joueur1{
