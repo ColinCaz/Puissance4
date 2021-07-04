@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Grille } from '../grille';
 import { DonneesService } from '../donnees.service';
+import { AuthService } from '../auth.service';
 import { Partie } from '../partie/partie';
 import { GrilleComponent } from '../partie/grille/grille.component';
 import { Router } from '@angular/router';
@@ -20,6 +21,7 @@ export class ParametresComponent implements OnInit {
       hauteur:6,
 	  hover:false
     },
+    tableau:new Array(7),
 	score1:0,
 	score2:0,
 	tour:1,
@@ -47,9 +49,16 @@ export class ParametresComponent implements OnInit {
 	this.setGrille(this.partie.grille);
   }
   
+  deconnexion(){
+	this.authService.signOutUser();
+  }
+  
   grilles: Grille[] = [];
   
   get():void{
+	//this.partie=this.donneesService.getPartie();
+	this.donneesService.getGrilles().subscribe(grilles => this.grilles = grilles);
+	
 	this.donneesService.getJoueur1().subscribe(joueur1 => this.partie.joueur1 = joueur1);
 	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);
 	this.donneesService.getGrille().subscribe(grille => this.partie.grille = grille);
@@ -65,6 +74,7 @@ export class ParametresComponent implements OnInit {
       }
     }
 	this.donneesService.setTab(tab);
+	
   }
   
   setGrille(grille:Grille):void{
@@ -80,18 +90,6 @@ export class ParametresComponent implements OnInit {
 	}
 	this.donneesService.setJoueur1(joueur1);
 	this.donneesService.setJoueur2(joueur2);
-	this.donneesService.setScore(0,0);
-	this.donneesService.setTour(1);
-	let tab:Array<Array<number>> = new Array(this.partie.grille.largeur);
-	for(var i = 0; i < this.partie.grille.largeur; i++){
-      tab[i] = new Array(this.partie.grille.hauteur);
-    }
-	for(var i = 0; i < this.partie.grille.largeur; i++){
-      for(var j = 0; j < this.partie.grille.hauteur; j++){
-        tab[i][j] = 0;
-      }
-    }
-	this.donneesService.setTab(tab);
   }
   
   click():void{
@@ -99,10 +97,23 @@ export class ParametresComponent implements OnInit {
 	this.router.navigate(['/partie']);
   }
 
-  constructor(public router: Router, private donneesService: DonneesService) {}
+  constructor(public router: Router, private donneesService: DonneesService, private authService: AuthService) {}
 
   ngOnInit(): void {
 	this.get();
+	this.donneesService.setScore(0,0);
+	this.donneesService.setTour(1);
+	this.partie.tableau = new Array(this.partie.grille.largeur);
+	for(var i = 0; i < this.partie.grille.largeur; i++){
+      this.partie.tableau[i] = new Array(this.partie.grille.hauteur);
+    }
+	for(var i = 0; i < this.partie.grille.largeur; i++){
+      for(var j = 0; j < this.partie.grille.hauteur; j++){
+        this.partie.tableau[i][j] = 0;
+      }
+    }
+	this.donneesService.setTab(this.partie.tableau);
+    //this.partie.joueur1=this.authService.getName();
   }
   
 }

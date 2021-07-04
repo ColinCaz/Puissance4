@@ -13,6 +13,7 @@
 	display:inline-block;
 	width:9.090909%;
 	background-color:#333333;
+	cursor:pointer;
 }
 .joueur{
 	font-size:300%;
