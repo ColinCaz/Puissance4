@@ -26,7 +26,6 @@ export class GrilleComponent implements OnInit {
   };
   
   get(i:number,j:number):number{
-	  console.log(i+" "+j);
 	if(this.partie.tableau[i][j]!=undefined)
     return this.partie.tableau[i][j];
 	return 0;
@@ -41,6 +40,7 @@ export class GrilleComponent implements OnInit {
 	  for(var j = 0; j < this.partie.grille.hauteur; j++){
         if(this.partie.tableau[i][j]!=0 && this.partie.tableau[i][j]!=3 && j-1>=0){
           this.partie.tableau[i][j-1] = this.partie.tour;
+		  //console.log("ligne : "+(j-1));
 		  if(j>1){
 		    this.partie.tableau[i][j-2]=3;
 		  }
@@ -49,6 +49,7 @@ export class GrilleComponent implements OnInit {
         }
 		if(j==this.partie.grille.hauteur-1){
 		  this.partie.tableau[i][j] = this.partie.tour;
+		  //console.log("ligne : "+j);
 		  this.partie.tableau[i][j-1]=3;
 		  this.check(this.partie.tour);
 		}
@@ -189,16 +190,16 @@ export class GrilleComponent implements OnInit {
   }
   
   getAll():void{
-	this.donneesService.getPartie().subscribe(partie => this.partie = partie);
-	/*
+	//this.partie=this.donneesService.getPartie();
+	
 	this.donneesService.getJoueur1().subscribe(joueur1 => this.partie.joueur1 = joueur1);
 	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);
 	this.donneesService.getGrille().subscribe(grille => this.partie.grille = grille);
-	this.donneesService.getGameOver().subscribe(gameOver => this.partie.gameOver = gameOver);
 	this.donneesService.getTab().subscribe(tab => this.partie.tableau = tab);
     this.donneesService.getScore().subscribe(score => {this.partie.score1 = score[0]; this.partie.score2 = score[1];});
 	this.donneesService.getTour().subscribe(tour => this.partie.tour = tour);
-	*/
+	this.donneesService.getGameOver().subscribe(gameOver => this.partie.gameOver = gameOver);
+	
   }
 
   constructor(private donneesService: DonneesService) {}

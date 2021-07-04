@@ -56,9 +56,9 @@ export class ParametresComponent implements OnInit {
   grilles: Grille[] = [];
   
   get():void{
-	this.donneesService.getPartie().subscribe(partie => this.partie = partie);
+	//this.partie=this.donneesService.getPartie();
 	this.donneesService.getGrilles().subscribe(grilles => this.grilles = grilles);
-	/*
+	
 	this.donneesService.getJoueur1().subscribe(joueur1 => this.partie.joueur1 = joueur1);
 	this.donneesService.getJoueur2().subscribe(joueur2 => this.partie.joueur2 = joueur2);
 	this.donneesService.getGrille().subscribe(grille => this.partie.grille = grille);
@@ -74,7 +74,7 @@ export class ParametresComponent implements OnInit {
       }
     }
 	this.donneesService.setTab(tab);
-	*/
+	
   }
   
   setGrille(grille:Grille):void{
@@ -90,6 +90,17 @@ export class ParametresComponent implements OnInit {
 	}
 	this.donneesService.setJoueur1(joueur1);
 	this.donneesService.setJoueur2(joueur2);
+  }
+  
+  click():void{
+	this.set(this.partie.joueur1, this.partie.joueur2);
+	this.router.navigate(['/partie']);
+  }
+
+  constructor(public router: Router, private donneesService: DonneesService, private authService: AuthService) {}
+
+  ngOnInit(): void {
+	this.get();
 	this.donneesService.setScore(0,0);
 	this.donneesService.setTour(1);
 	this.partie.tableau = new Array(this.partie.grille.largeur);
@@ -102,18 +113,7 @@ export class ParametresComponent implements OnInit {
       }
     }
 	this.donneesService.setTab(this.partie.tableau);
-  }
-  
-  click():void{
-	this.set(this.partie.joueur1, this.partie.joueur2);
-	this.router.navigate(['/partie']);
-  }
-
-  constructor(public router: Router, private donneesService: DonneesService, private authService: AuthService) {}
-
-  ngOnInit(): void {
-	this.get();
-    this.partie.joueur1=this.authService.getName();
+    //this.partie.joueur1=this.authService.getName();
   }
   
 }
